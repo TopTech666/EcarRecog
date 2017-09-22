@@ -19,6 +19,9 @@ public class Consts {
     public static String platenum;//车牌号
     public static int recogingDegger;  //识别次数
 
+    static public String PIC_PATH = ""; //识别图片保存路径(savePic后调用)
+
+
     public static final String SP_PERMITION = "recog_permition";  //permition文件
     public static final String IS_GETEDPERMITION = "recog_permition";  //
 

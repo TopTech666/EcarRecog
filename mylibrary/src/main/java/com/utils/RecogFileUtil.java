@@ -696,7 +696,7 @@ public class RecogFileUtil {
 
             File imgFile = new File(Consts.IMAGGE_DIR, fileName);
             saveBitmap(imgFile.getPath(), bitmap);
-
+            Consts.PIC_PATH = imgFile.getAbsolutePath();
 //            if (bitmap != null && !bitmap.isRecycled()) {
 //                bitmap.compress(Bitmap.CompressFormat.JPEG, 40, new FileOutputStream(imgFile));
 //            }
