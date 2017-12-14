@@ -406,6 +406,13 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
 
         re.removeView(myview);
         re.addView(myview);
+        
+        mCamera.autoFocus(new AutoFocusCallback() {
+            @Override
+            public void onAutoFocus(boolean b, Camera camera) {
+
+            }
+        });
     }
 
 
