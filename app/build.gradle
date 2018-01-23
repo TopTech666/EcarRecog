@@ -33,14 +33,14 @@ android {
             v2SigningEnabled false
             keyAlias "test"
             keyPassword "123456"
-            storeFile new File(getProjectDir().absolutePath + "/buildsystem/YCDEVELOP.jks")
+            storeFile new File(getProjectDir().absolutePath + "/buildsystem/CWGJ_TEST_STORE.jks")
             storePassword "123456"//密钥库的密码
         }
         release {
             v2SigningEnabled false
-            storeFile new File(getProjectDir().absolutePath + "/buildsystem/YCDEVELOP.jks")
             keyAlias "test"
             keyPassword "123456"
+            storeFile new File(getProjectDir().absolutePath + "/buildsystem/CWGJ_TEST_STORE.jks")
             storePassword "123456"//密钥库的密码
         }
 

@@ -3,6 +3,9 @@ package recognition.ecarrecog;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -46,6 +49,7 @@ public class TestActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        System.out.print("签名=" + getSignature());
         initPermition();
     }
 
@@ -192,5 +196,27 @@ public class TestActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         System.exit(0);
+    }
+
+    //获取签名
+    public String getSignature() {
+        String signature = "";
+        try {
+            PackageManager manager = getPackageManager();
+            StringBuilder builder = new StringBuilder();
+            /** 通过包管理器获得指定包名包含签名的包信息 **/
+            PackageInfo packageInfo = manager.getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            /******* 通过返回的包信息获得签名数组 *******/
+            Signature[] signatures = packageInfo.signatures;
+            /******* 循环遍历签名数组拼接应用签名 *******/
+            for (Signature sign : signatures) {
+                builder.append(sign.toCharsString());
+            }
+            /************** 得到应用签名 **************/
+            signature = builder.toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return signature;
     }
 }

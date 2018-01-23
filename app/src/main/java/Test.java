@@ -17,13 +17,14 @@ import java.util.Date;
 public class Test {
     public static void main(String[] arg){
         try {
-            System.out.println(dateToStamp("2017-12-01"));
-            System.out.println(dateToStamp("2018-01-30"));
+            System.out.println(dateToStamp("2018-01-01"));
+            System.out.println(dateToStamp("2018-02-28"));
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
+    
 
     /*
    * 将时间转换为时间戳
