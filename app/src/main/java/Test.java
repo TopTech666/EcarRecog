@@ -1,6 +1,10 @@
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * +----------------------------------------------------------------------
@@ -17,14 +21,14 @@ import java.util.Date;
 public class Test {
     public static void main(String[] arg){
         try {
-            System.out.println(dateToStamp("2018-01-01"));
-            System.out.println(dateToStamp("2018-02-28"));
+            System.out.println(dateToStamp("2018-02-27"));
+            System.out.println(dateToStamp("2018-04-28"));
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
-    
+
 
     /*
    * 将时间转换为时间戳

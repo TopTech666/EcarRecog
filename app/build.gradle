@@ -118,6 +118,7 @@ dependencies {
     compile 'com.github.goEcar:EcarBugly:latest.release'
 //    compile 'com.github.goEcar:EcarNetFream:latest.release'
     compile project(':mylibrary')
+
 }
 
 
