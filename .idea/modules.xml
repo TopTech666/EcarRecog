@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\kims\cheweiguanjia\Demo\TechRecog\EcarRecog.iml" filepath="D:\kims\cheweiguanjia\Demo\TechRecog\EcarRecog.iml" />
       <module fileurl="file://$PROJECT_DIR$/TechRecog.iml" filepath="$PROJECT_DIR$/TechRecog.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/mylibrary/mylibrary.iml" filepath="$PROJECT_DIR$/mylibrary/mylibrary.iml" />
