@@ -29,7 +29,7 @@ import com.mine.recog.R;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
-import com.utils.Consts;
+import com.utils.RecogConsts;
 import com.utils.RecogFileUtil;
 
 import java.util.List;
@@ -77,7 +77,7 @@ public class TestActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (TextUtils.isEmpty(AuthHelper.seriaNumber)) {
-//            WintonRecogManager.getInstance().auth(this, Consts.IS_WENTONG);
+//            WintonRecogManager.getInstance().auth(this, RecogConsts.IS_WENTONG);
         }
 
 
@@ -85,20 +85,20 @@ public class TestActivity extends Activity {
         if ((bitmap = RecogFileUtil.saveBitmap()) != null) {
             iv_clip.setImageBitmap(bitmap);
         } else {
-            Consts.platenum = "";
-            Consts.speed = 0;
+            RecogConsts.platenum = "";
+            RecogConsts.speed = 0;
             iv_clip.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_launcher));
         }
 
-        tv_plate.setText(Consts.platenum + "     速度：" + Consts.speed + "s");
+        tv_plate.setText(RecogConsts.platenum + "     速度：" + RecogConsts.speed + "s");
 
     }
 
     private void init() {
-        Consts.IS_WENTONG = true;
+        RecogConsts.IS_WENTONG = true;
 
         if (TextUtils.isEmpty(AuthHelper.seriaNumber)) {
-//            WintonRecogManager.getInstance().auth(this, Consts.IS_WENTONG);
+//            WintonRecogManager.getInstance().auth(this, RecogConsts.IS_WENTONG);
         }
         iv_clip = (ImageView) findViewById(R.id.iv_clip);
         tv_plate = (TextView) findViewById(R.id.tv_plate);
@@ -171,6 +171,8 @@ public class TestActivity extends Activity {
                 }
                 tv_plate.setText("");
                 Intent i = new Intent(TestActivity.this, MemoryCameraActivity.class);
+//                Intent i = new Intent(TestActivity.this, CarActivity.class);
+
                 i.putExtra("pic", true);
                 ComRecogHelper.isPic = true;
                 startActivityForResult(i, 0);
@@ -186,6 +188,8 @@ public class TestActivity extends Activity {
                 }
                 tv_plate.setText("");
                 Intent i = new Intent(TestActivity.this, MemoryCameraActivity.class);
+//                Intent i = new Intent(TestActivity.this, CarActivity.class);
+
                 ComRecogHelper.isPic = false;
                 startActivityForResult(i, 0);
             }

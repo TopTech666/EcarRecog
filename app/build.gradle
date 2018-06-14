@@ -22,7 +22,7 @@ android {
         versionCode 1
         versionName "1.2"
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "LPR"
+            abiFilters  "armeabi-v7a"
         }
         buildConfigField "boolean", "isShowCast", "true" //是否显示转换按钮
 
@@ -117,7 +117,7 @@ dependencies {
 //    compile 'com.github.TopTech666:TechEncryption:latest.release'
 //    compile 'com.github.goEcar:EcarBugly:latest.release'
 //    compile 'com.github.goEcar:EcarNetFream:latest.release'
-    compile project(':mylibrary')
+    compile project(':ecar_recog')
 
 }
 

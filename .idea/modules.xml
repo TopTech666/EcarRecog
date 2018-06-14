@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TechRecog.iml" filepath="$PROJECT_DIR$/TechRecog.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mylibrary/mylibrary.iml" filepath="$PROJECT_DIR$/mylibrary/mylibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ecar_recog/mylibrary.iml" filepath="$PROJECT_DIR$/ecar_recog/mylibrary.iml" />
     </modules>
   </component>
 </project>

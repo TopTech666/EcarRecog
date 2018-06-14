@@ -22,13 +22,14 @@ import com.Helper.RecogResult;
 import com.ecaray.wintonlib.WintonRecogManager;
 import com.ecaray.wintonlib.helper.RecogniteHelper4WT;
 import com.mine.recog.R;
-import com.utils.Consts;
+import com.utils.RecogConsts;
 import com.utils.MemoryUtil;
 import com.utils.RecogFileUtil;
+import com.utils.StreamEmpowerFileUtils;
 import com.utils.ViewfinderView;
 
+import java.io.IOException;
 import java.util.List;
-
 
 
 /**
@@ -78,17 +79,20 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        recogHelper = ComRecogHelper.getDefault(getApplication(), true, "粤",false);
-        Consts.IS_WENTONG=false;
-        if (Consts.IS_WENTONG) {
+        //文通识别
+        RecogConsts.IS_WENTONG = false;
+        if (RecogConsts.IS_WENTONG) {
             wintonHelper = WintonRecogManager.getInstance();
             wintonHelper.setStop(false);
             wintonHelper.bind(MemoryCameraActivity.this);
         }
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);//
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_carmera);
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
@@ -106,7 +110,7 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
         findViewById(R.id.memory).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mCamera!=null)
+                if (mCamera != null)
                     mCamera.autoFocus(new AutoFocusCallback() {
                         @Override
                         public void onAutoFocus(boolean b, Camera camera) {
@@ -129,7 +133,7 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
         @Override
         public void onGeted(String fileName, String carPlate) {
             wintonHelper.setStop(true);
-            Consts.platenum = carPlate;
+            RecogConsts.platenum = carPlate;
 
 //            Intent intent = new Intent(MemoryCameraActivity.this, TestActivity.class);
 //            startActivity(intent);
@@ -145,7 +149,7 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
 
         @Override
         public String saveImage(byte[] data) {
-            Consts.orgdata = data;
+            RecogConsts.orgdata = data;
             return "";
         }
     }
@@ -155,12 +159,12 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
         findViewById(R.id.btn_save).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Consts.orgdata == null || mCamera == null) {
+                if (RecogConsts.orgdata == null || mCamera == null) {
                     Toast.makeText(MemoryCameraActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Consts.orgw = mCamera.getParameters().getPreviewSize().width;
-                Consts.orgh = mCamera.getParameters().getPreviewSize().height;
+                RecogConsts.orgw = mCamera.getParameters().getPreviewSize().width;
+                RecogConsts.orgh = mCamera.getParameters().getPreviewSize().height;
                 Toast.makeText(MemoryCameraActivity.this, "正在保存~", Toast.LENGTH_SHORT).show();
                 RecogFileUtil.saveBitmap();
                 Toast.makeText(MemoryCameraActivity.this, "保存成功！", Toast.LENGTH_SHORT).show();
@@ -188,12 +192,12 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
             findViewById(R.id.memory).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (Consts.orgdata == null || mCamera == null) {
+                    if (RecogConsts.orgdata == null || mCamera == null) {
                         Toast.makeText(MemoryCameraActivity.this, "识别失败，请再按一次", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     surfaceView.setClickable(false);
-                    recogHelper.getCarnum(Consts.orgdata, mCamera, new RecogResult() {
+                    recogHelper.getCarnum(RecogConsts.orgdata, mCamera, new RecogResult() {
                         @Override
                         public void recogSuccess(String carPlate, byte[] picData) {
 //                            Intent intent = new Intent(MemoryCameraActivity.this, TestActivity.class);
@@ -227,7 +231,8 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
     protected void onDestroy() {
         super.onDestroy();
         recogHelper.offFlash(parameters);
-        Consts.IS_WENTONG=true;
+        RecogConsts.IS_WENTONG = true;
+        recogHelper.destroy();
 
     }
 
@@ -245,16 +250,14 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
             mCamera.stopPreview();
             mCamera.release();
             mCamera = null;
-            if (Consts.IS_WENTONG&&wintonHelper!=null)
-                wintonHelper.unBind(this, Consts.IS_WENTONG);
+            if (RecogConsts.IS_WENTONG && wintonHelper != null)
+                wintonHelper.unBind(this, RecogConsts.IS_WENTONG);
         }
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-
         initCamera(holder, rotation);
-
     }
 
     @Override
@@ -271,8 +274,6 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
                 releaseCamera();
             }
         }).start();
-
-
     }
 
     @Override
@@ -290,7 +291,7 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
         if (ComRecogHelper.isPic || isSuccess) {
             return;
         }
-        if (Consts.IS_WENTONG) {
+        if (RecogConsts.IS_WENTONG) {
             if (wintonHelper != null && System.currentTimeMillis() - time > 500) {
                 time = System.currentTimeMillis();
                 wintonHelper.useWTRecognitionByData(this, data, new Geted(), preWidth, preHeight);
@@ -330,13 +331,14 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
         }
     }
 
+    private int[] m_ROI = {0, 0, 0, 0};
 
     /**
      * @throws
      * @Title: initCamera
      */
     @TargetApi(14)
-    private void initCamera(SurfaceHolder holder, int r) {
+    private void initCamera(SurfaceHolder holder, int rotation) {
         if (mCamera == null) {
             try {
                 mCamera = Camera.open();
@@ -382,11 +384,10 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
         }
         preWidth = previewWidth;
         preHeight = previewheight;
-        Consts.orgw = preWidth;
-        Consts.orgh = preHeight;
+        RecogConsts.orgw = preWidth;
+        RecogConsts.orgh = preHeight;
         parameters.setPictureFormat(PixelFormat.JPEG);
         parameters.setPreviewSize(preWidth, preHeight);
-        recogHelper.openFlash(parameters);
         parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_CLOUDY_DAYLIGHT);
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
         mCamera.setParameters(parameters);
@@ -400,19 +401,27 @@ public class MemoryCameraActivity extends Activity implements SurfaceHolder.Call
             }
         }
 
-        mCamera.setDisplayOrientation(r);
+        mCamera.setDisplayOrientation(rotation);
         mCamera.setPreviewCallback(this);
         mCamera.startPreview();
 
         re.removeView(myview);
         re.addView(myview);
-        
+
         mCamera.autoFocus(new AutoFocusCallback() {
             @Override
             public void onAutoFocus(boolean b, Camera camera) {
 
             }
         });
+
+        //初始化识别sdk
+        recogHelper = ComRecogHelper.getDefault(this,
+                true, "粤", false,
+                height, width, preHeight, preWidth);
+        recogHelper.openFlash(parameters);
+
+
     }
 
 

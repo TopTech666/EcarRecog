@@ -1,0 +1,67 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion '25.0.2'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        ndk {
+            abiFilters  "armeabi-v7a"
+        }
+
+    }
+    sourceSets {
+        main {
+            assets.srcDirs = ['src/main/assets']
+            jniLibs.srcDirs = ['libs']
+        }
+
+    }
+    signingConfigs {
+        debug {
+            v2SigningEnabled false
+            keyAlias "test"
+            keyPassword  "123456"
+            storeFile   file("/buildsystem/YCDEVELOP.jks")
+            storePassword "123456"//密钥库的密码
+        }
+        release {
+            v2SigningEnabled false
+            storeFile   file("/buildsystem/YCDEVELOP.jks")
+            keyAlias "test"
+            keyPassword  "123456"
+            storePassword "123456"//密钥库的密码
+        }
+
+    }
+
+    buildTypes {
+
+        release {
+            def isMinifyEnabled = false;//混淆（打正式包）
+            debuggable true
+            minifyEnabled isMinifyEnabled
+            zipAlignEnabled isMinifyEnabled
+            shrinkResources isMinifyEnabled
+            //加载默认混淆配置文件
+            if (isMinifyEnabled) {
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-android.txt'
+            }
+            signingConfig signingConfigs.release
+
+
+        }
+    }
+}
+
+
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+}

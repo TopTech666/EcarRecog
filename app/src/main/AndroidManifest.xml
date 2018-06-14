@@ -70,6 +70,11 @@
             android:screenOrientation="nosensor">
 
         </activity>
+        <activity
+            android:name="recognition.ecarrecog.CarActivity"
+            android:screenOrientation="nosensor">
+
+        </activity>
 
         <activity
             android:name="recognition.ecarrecog.TestActivity"
