@@ -21,8 +21,8 @@ import java.util.Map;
 public class Test {
     public static void main(String[] arg){
         try {
-            System.out.println(dateToStamp("2018-02-27"));
-            System.out.println(dateToStamp("2018-04-28"));
+            System.out.println(dateToStamp("2018-06-10"));
+            System.out.println(dateToStamp("2018-08-31"));
 
         } catch (ParseException e) {
             e.printStackTrace();

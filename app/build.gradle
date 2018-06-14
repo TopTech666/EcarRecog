@@ -115,7 +115,7 @@ dependencies {
     compile 'com.github.goEcar:EcarAspectJ:1.0.0'
     compile('com.github.goEcar:EcarWintoneSeria:1.0.8')
 //    compile 'com.github.TopTech666:TechEncryption:latest.release'
-    compile 'com.github.goEcar:EcarBugly:latest.release'
+//    compile 'com.github.goEcar:EcarBugly:latest.release'
 //    compile 'com.github.goEcar:EcarNetFream:latest.release'
     compile project(':mylibrary')
 
