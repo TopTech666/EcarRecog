@@ -47,6 +47,11 @@ public class RecogHelperSafe {
         init(cityName, isEcarRecog, screenHeigth, screenWidth, preHeigth, preWidth);
     }
 
+    //isEcarRecog true 亿车识别  false 安荣识别
+    public RecogHelperSafe(String cityName) {
+        init(cityName, false, 0, 0, 0, 0);
+    }
+
 
     //isInitConfig 是否初始化参数   相机页面一定要设为true否则无法识别
     //cityName  默认的第一个汉字 如：粤
