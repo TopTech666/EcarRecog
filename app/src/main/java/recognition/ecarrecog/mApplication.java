@@ -2,6 +2,8 @@ package recognition.ecarrecog;
 
 import android.app.Application;
 
+import cn.bmob.v3.Bmob;
+
 
 /*************************************
  功能：
@@ -14,5 +16,6 @@ public class mApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
     }
 }

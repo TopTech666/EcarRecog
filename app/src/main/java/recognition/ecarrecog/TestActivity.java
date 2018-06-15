@@ -29,6 +29,7 @@ import com.mine.recog.R;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
+import com.safe.RecogHelperSafe;
 import com.utils.RecogConsts;
 import com.utils.RecogFileUtil;
 
@@ -51,6 +52,8 @@ public class TestActivity extends Activity {
         setContentView(R.layout.activity_main);
         System.out.print("签名=" + getSignature());
         initPermition();
+        RecogHelperSafe.initRecog(this,"mn1","user","pass","id","test");
+
     }
 
     //权限管理
@@ -79,7 +82,6 @@ public class TestActivity extends Activity {
         if (TextUtils.isEmpty(AuthHelper.seriaNumber)) {
 //            WintonRecogManager.getInstance().auth(this, RecogConsts.IS_WENTONG);
         }
-
 
         Log.d("tag", "init");
         if ((bitmap = RecogFileUtil.saveBitmap()) != null) {

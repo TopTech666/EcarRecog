@@ -9,6 +9,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.aspectj:aspectjtools:1.8.9'
+
     }
 }
 android {
@@ -118,6 +119,7 @@ dependencies {
 //    compile 'com.github.goEcar:EcarBugly:latest.release'
 //    compile 'com.github.goEcar:EcarNetFream:latest.release'
     compile project(':ecar_recog')
+    compile 'com.google.code.gson:gson:2.7'
 
 }
 

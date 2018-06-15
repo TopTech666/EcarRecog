@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.Helper.RecogResult;
 import com.LPR;
+import com.bean.UserInfo;
 import com.etop.plate.PlateAPI;
 import com.utils.RecogEncryptionUtil;
 import com.utils.RecogSpUtil;
@@ -28,6 +29,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 import static com.Helper.ComRecogHelper.isPic;
 
@@ -99,11 +104,11 @@ public class RecogHelperSafe {
                         int preHeigth,
                         int preWidth) {
         this.isEcarRecog = isEcarRecog;
-        this.screenHeigth=screenHeigth;
-        this.screenWidth=screenWidth;
-        this.preHeigth=preHeigth;
-        this.preWidth=preWidth;
-
+        this.screenHeigth = screenHeigth;
+        this.screenWidth = screenWidth;
+        this.preHeigth = preHeigth;
+        this.preWidth = preWidth;
+//第一：默认初始化
         spUtil = new RecogSpUtil(mContext, RecogConsts.SP_PERMITION);
         random = new Random();
         //初始化识别算法
@@ -124,9 +129,9 @@ public class RecogHelperSafe {
         if (!f2.exists()) {
             f2.mkdirs();
         }
-        
+
         if (isEcarRecog) {
-            return initEcarRecog(cityName,modelPath);
+            return initEcarRecog(cityName, modelPath);
         } else {
             return initAnrongRecog(screenHeigth, screenWidth, preHeigth, preWidth);
         }
@@ -191,7 +196,7 @@ public class RecogHelperSafe {
     }
 
     //初始化亿车识别
-    private boolean initEcarRecog(String cityName,String modelPath) {
+    private boolean initEcarRecog(String cityName, String modelPath) {
 
 
         try {
@@ -536,5 +541,27 @@ public class RecogHelperSafe {
 
     public PlateAPI getApi() {
         return plApi;
+    }
+
+    //判断用户i唯一性
+    public static void initRecog(Context context,String d, String u, String p, String i,String a) {
+        Bmob.initialize(context, "37b5cc412e7f799a99aed857d716b53c");
+
+        try{
+            UserInfo p2 = new UserInfo();
+            p2.setDean(d);
+            p2.setUserName(u);
+            p2.setPassWord(p);
+            p2.setParkId(i);
+            p2.app=a;
+            p2.save(new SaveListener<String>() {
+                @Override
+                public void done(String objectId, BmobException e) {
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }
