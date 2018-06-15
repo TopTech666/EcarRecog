@@ -38,9 +38,11 @@ public class ComRecogHelper {
     protected static ComRecogHelper recogHelper;
     static RecogHelperSafe recogHelperSafe;
     public static boolean isPic; //是否是照相模式
+    static Activity activity;
 
 
     public ComRecogHelper() {
+       
     }
 
     //isInitConfig 是否初始化参数   相机页面一定要设为true否则无法识别
@@ -54,15 +56,10 @@ public class ComRecogHelper {
                                                          int screenWidth,
                                                          int preHeigth,
                                                          int preWidth) {
-        if (!isEcarRecog) { //安荣授权文件拷贝
-            try {
-                StreamEmpowerFileUtils.copyDataBase(context);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        activity=context;
+
         synchronized (ComRecogHelper.class) {
-            recogHelperSafe = RecogHelperSafe.getDefault(context.getApplication(),
+            recogHelperSafe = RecogHelperSafe.getDefault(context,
                     isInitConfig,
                     cityName,
                     isEcarRecog,

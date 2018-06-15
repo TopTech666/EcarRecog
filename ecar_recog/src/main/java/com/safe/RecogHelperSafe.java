@@ -1,6 +1,7 @@
 package com.safe;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Context;
@@ -33,10 +34,15 @@ import static com.Helper.ComRecogHelper.isPic;
 public class RecogHelperSafe {
     private static final int DEFAULT_SCOPE = 85; //合格分数
     protected static RecogHelperSafe recogHelper;
-    public static Application mContext;
+    public static Activity mContext;
     boolean isEcarRecog;//是否是亿车识别
 
     public Random random;
+
+    int screenHeigth;
+    int screenWidth;
+    int preHeigth;
+    int preWidth;
 
     //isEcarRecog true 亿车识别  false 安荣识别
     public RecogHelperSafe(String cityName, boolean isEcarRecog,
@@ -44,6 +50,7 @@ public class RecogHelperSafe {
                            int screenWidth,
                            int preHeigth,
                            int preWidth) {
+
         init(cityName, isEcarRecog, screenHeigth, screenWidth, preHeigth, preWidth);
     }
 
@@ -57,7 +64,7 @@ public class RecogHelperSafe {
     //cityName  默认的第一个汉字 如：粤
     //screenHeigth  screenWidth  屏幕长款
     // preHeigth   preWidth  预览页面长款
-    public static synchronized RecogHelperSafe getDefault(Application context,
+    public static synchronized RecogHelperSafe getDefault(Activity context,
                                                           boolean isInitConfig,
                                                           String cityName,
                                                           boolean isEcarRecog,
@@ -92,25 +99,12 @@ public class RecogHelperSafe {
                         int preHeigth,
                         int preWidth) {
         this.isEcarRecog = isEcarRecog;
+        this.screenHeigth=screenHeigth;
+        this.screenWidth=screenWidth;
+        this.preHeigth=preHeigth;
+        this.preWidth=preWidth;
+
         spUtil = new RecogSpUtil(mContext, RecogConsts.SP_PERMITION);
-
-        if (isEcarRecog) {
-            return initEcarRecog(cityName);
-        } else {
-            return initAnrongRecog(screenHeigth, screenWidth, preHeigth, preWidth);
-        }
-
-    }
-
-    PlateAPI plApi;
-
-    //安荣识别
-    private boolean initAnrongRecog(int screenHeigth,
-                                    int screenWidth,
-                                    int preHeigth,
-                                    int preWidth) {
-
-
         random = new Random();
         //初始化识别算法
         String sdDir = RecogFileUtil.getSdPatch(mContext);
@@ -130,6 +124,30 @@ public class RecogHelperSafe {
         if (!f2.exists()) {
             f2.mkdirs();
         }
+        
+        if (isEcarRecog) {
+            return initEcarRecog(cityName,modelPath);
+        } else {
+            return initAnrongRecog(screenHeigth, screenWidth, preHeigth, preWidth);
+        }
+
+    }
+
+    PlateAPI plApi;
+
+    //安荣识别
+    private boolean initAnrongRecog(int screenHeigth,
+                                    int screenWidth,
+                                    int preHeigth,
+                                    int preWidth) {
+
+        try {
+            StreamEmpowerFileUtils.copyDataBase(mContext);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         boolean bInitKernal = true;
 
 
@@ -173,26 +191,8 @@ public class RecogHelperSafe {
     }
 
     //初始化亿车识别
-    private boolean initEcarRecog(String cityName) {
-        random = new Random();
-        //初始化识别算法
-        String sdDir = RecogFileUtil.getSdPatch(mContext);
-        if (sdDir == null) {
-            Toast.makeText(mContext, "找不到存储路径", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        String ImgPath = sdDir + "/mTest/Img/";
-        RecogConsts.IMAGGE_DIR = ImgPath;
-        String modelPath = sdDir + "/mTest/data/";
+    private boolean initEcarRecog(String cityName,String modelPath) {
 
-        File f1 = new File(ImgPath);
-        File f2 = new File(modelPath);
-        if (!f1.exists()) {
-            f1.mkdirs();
-        }
-        if (!f2.exists()) {
-            f2.mkdirs();
-        }
 
         try {
             Log.d("tagutil", String.format("current time is in java : %d", System.currentTimeMillis()));
@@ -251,6 +251,7 @@ public class RecogHelperSafe {
     }
 
     private void getByAnronPlate(byte[] data, int width, int height, RecogResult recogToken) {
+        initAnrongRecog(screenHeigth, screenWidth, preHeigth, preWidth);
 
 
         int buffl = 256;
@@ -457,8 +458,8 @@ public class RecogHelperSafe {
 
     //销毁
     public void destory() {
-        if (plApi != null)
-            plApi.ETUnInitPlateKernal();
+//        if (plApi != null)
+//            plApi.ETUnInitPlateKernal();
 
     }
 
