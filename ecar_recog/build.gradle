@@ -14,7 +14,6 @@ android {
         }
 
     }
-    useLibrary 'org.apache.http.legacy'
     sourceSets {
         main {
             assets.srcDirs = ['src/main/assets']
@@ -66,8 +65,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //统计sdk
     compile files('libs/BmobSDK_3.6.4_20180614.jar')
-    compile files('libs/okio-1.12.0.jar')
-    compile files('libs/org.apache.http.legacy.jar')
-    compile files('libs/rxandroid-1.2.0.jar')
-    compile files('libs/rxjava-1.1.6.jar')
+    provided ('com.github.TopTech666:TechRxbus:latest.release')
+    provided 'com.squareup.okio:okio:1.9.0'
 }

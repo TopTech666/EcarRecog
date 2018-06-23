@@ -120,6 +120,10 @@ dependencies {
 //    compile 'com.github.goEcar:EcarNetFream:latest.release'
     compile project(':ecar_recog')
     compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.okio:okio:1.9.0'
+    compile ('com.github.TopTech666:TechRxbus:latest.release')
+
+
 
 }
 
